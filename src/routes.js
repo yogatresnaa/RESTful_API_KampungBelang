@@ -16,12 +16,12 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/customers/{id}',
+    path: '/datacustomer/{id}',
     handler: getCustomerByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/notes/{id}',
+    path: '/datacustomer/{id}',
     handler: deleteCustomerByIdHandler,
   },
 ];
