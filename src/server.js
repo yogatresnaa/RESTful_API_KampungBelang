@@ -3,6 +3,7 @@
 const Hapi = require('@hapi/hapi');
 const customer = require('./api/customers');
 const CustomerService = require('./services/inMemory/customersServices');
+const CustomerValidator = require('./validator/customers');
 
 const init = async () => {
   const customerService = new CustomerService();
@@ -20,6 +21,7 @@ const init = async () => {
     plugin: customer,
     options: {
       service: customerService,
+      validator: CustomerValidator,
     },
   });
 

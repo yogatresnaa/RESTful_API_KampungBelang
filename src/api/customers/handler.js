@@ -1,12 +1,18 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable spaced-comment */
+/* eslint-disable linebreak-style */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable linebreak-style */
 /* eslint-disable object-curly-newline */
 /* eslint-disable lines-between-class-members */
 /* eslint-disable linebreak-style */
+const ClientError = require('../../exceptions/ClientError');
+
 class CustomersHandler {
-  constructor(service) {
+  constructor(service, validator) {
     this._service = service;
+    this._validator = validator;
+
     this.postCustomerHandler = this.postCustomerHandler.bind(this);
     this.getCustomersHandler = this.getCustomersHandler.bind(this);
     this.getCustomerByIdHandler = this.getCustomerByIdHandler.bind(this);
@@ -14,6 +20,7 @@ class CustomersHandler {
   }
   postCustomerHandler(request, h) {
     try {
+      this._validator.validateCustomerPaylod(request.payload);
       const { nama = 'untitled', noHp, email, subjek, pesan } = request.payload;
 
       const customerId = this._service.addCustomer({ nama, noHp, email, subjek, pesan });
@@ -27,11 +34,22 @@ class CustomersHandler {
       response.code(201);
       return response;
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
+      //server error
       const response = h.response({
-        status: 'fail',
-        message: error.message,
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(400);
+      response.code(500);
+      console.error(error);
       return response;
     }
   }
@@ -57,11 +75,21 @@ class CustomersHandler {
         },
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+      // Server ERROR!
       const response = h.response({
-        status: 'fail',
-        message: error.message,
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(404);
+      response.code(500);
+      console.error(error);
       return response;
     }
   }
@@ -75,11 +103,21 @@ class CustomersHandler {
         message: 'Customer berhasil dihapus',
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+      // Server ERROR!
       const response = h.response({
-        status: 'fail',
-        message: error.message,
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(404);
+      response.code(500);
+      console.error(error);
       return response;
     }
   }

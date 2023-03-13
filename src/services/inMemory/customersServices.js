@@ -4,6 +4,8 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable linebreak-style */
 const { nanoid } = require('nanoid');
+const InvariantError = require('../../exceptions/InvariantError');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
 class CustomerServices {
   constructor() {
@@ -26,7 +28,7 @@ class CustomerServices {
     this._customers.push(newCustomer);
     const isSuccess = this._customers.filter((customer) => customer.id === id).length > 0;
     if (!isSuccess) {
-      throw new Error('Customer gagal ditambahkan');
+      throw new InvariantError('Customer gagal ditambahkan');
     }
     return id;
   }
@@ -38,7 +40,7 @@ class CustomerServices {
   getCustomersById(id) {
     const customer = this._customers.filter((n) => n.id === id)[0];
     if (!customer) {
-      throw new Error('Customer tidak ditemukan');
+      throw new NotFoundError('Customer tidak ditemukan');
     }
     return customer;
   }
@@ -46,7 +48,7 @@ class CustomerServices {
   deleteCustomerById(id) {
     const index = this._customers.findIndex((customer) => customer.id === id);
     if (index === -1) {
-      throw new Error('Customer gagal dihapus, Id tidak ditemukan');
+      throw new NotFoundError('Customer gagal dihapus, Id tidak ditemukan');
     }
     this._customers.splice(index, 1);
   }
