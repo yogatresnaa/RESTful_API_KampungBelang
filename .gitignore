@@ -1,5 +1,5 @@
 node_modules
 .eslintrc.json
 dist
-kampungbelang-resto-api-webserver.pem
+resto-api-webserver.pem
 secret
