@@ -3,3 +3,5 @@ node_modules
 dist
 resto-api-webserver.pem
 secret
+.env
+.prod.env
