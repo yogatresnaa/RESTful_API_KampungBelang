@@ -10,8 +10,8 @@ const CustomerValidator = require('./validator/customers');
 const init = async () => {
   const customerService = new CustomerService();
   const server = Hapi.server({
-    port: process.env.PORT,
-    host: process.env.HOST,
+    port: 5000,
+    host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
     routes: {
       cors: {
         origin: ['*'],
@@ -26,7 +26,6 @@ const init = async () => {
       validator: CustomerValidator,
     },
   });
-
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
 };
