@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
-const { CustomerPaylodSchema } = require('./schema');
 const InvariantError = require('../../exceptions/InvariantError');
+const { CustomerPaylodSchema } = require('./schema');
 
 const CustomerValidator = {
   validateCustomerPaylod: (payload) => {

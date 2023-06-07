@@ -26,7 +26,7 @@ class CustomersHandler {
       const customerId = await this._service.addCustomer({ nama, noHp, email, subjek, pesan });
       const response = h.response({
         status: 'success',
-        message: 'Data pelanggan berhasil ditambahkan',
+        message: 'Pesan Anda Terkirim',
         data: {
           customerId,
         },
