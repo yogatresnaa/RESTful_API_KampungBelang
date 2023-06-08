@@ -56,7 +56,7 @@ class CustomersService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError('Customer gagal dihapus, Id tidak ditemukan');
+      throw new NotFoundError('Customer tidak ditemukan');
     }
   }
 }
