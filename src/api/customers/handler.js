@@ -1,11 +1,3 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable spaced-comment */
-/* eslint-disable linebreak-style */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable linebreak-style */
-/* eslint-disable object-curly-newline */
-/* eslint-disable lines-between-class-members */
-/* eslint-disable linebreak-style */
 const ClientError = require('../../exceptions/ClientError');
 
 class CustomersHandler {
@@ -18,6 +10,7 @@ class CustomersHandler {
     this.getCustomerByIdHandler = this.getCustomerByIdHandler.bind(this);
     this.deleteCustomerByIdHandler = this.deleteCustomerByIdHandler.bind(this);
   }
+
   async postCustomerHandler(request, h) {
     try {
       this._validator.validateCustomerPaylod(request.payload);
@@ -43,7 +36,7 @@ class CustomersHandler {
         return response;
       }
 
-      //server error
+      // server error
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
