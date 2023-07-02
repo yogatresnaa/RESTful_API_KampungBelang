@@ -64,7 +64,7 @@ class CustomersHandler {
       const { id } = request.params;
       const { id: credentialId } = request.auth.credentials;
 
-      await this._service.verifyNoteOwner(id, credentialId);
+      await this._service.verifyCustomerOwner(id, credentialId);
 
       const customer = await this._service.getCustomersById(id);
       return {
