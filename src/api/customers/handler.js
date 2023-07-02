@@ -15,8 +15,9 @@ class CustomersHandler {
     try {
       this._validator.validateCustomerPaylod(request.payload);
       const { nama = 'untitled', noHp, email, subjek, pesan } = request.payload;
+      const { id: credentialId } = request.auth.credentials;
 
-      const customerId = await this._service.addCustomer({ nama, noHp, email, subjek, pesan });
+      const customerId = await this._service.addCustomer({ nama, noHp, email, subjek, pesan, owner: credentialId });
       const response = h.response({
         status: 'success',
         message: 'Pesan Anda Terkirim',
@@ -47,8 +48,9 @@ class CustomersHandler {
     }
   }
 
-  async getCustomersHandler() {
-    const customers = await this._service.getCustomers();
+  async getCustomersHandler(request) {
+    const { id: credentialId } = request.auth.credentials;
+    const customers = await this._service.getCustomers(credentialId);
     return {
       status: 'success',
       data: {
@@ -60,6 +62,10 @@ class CustomersHandler {
   async getCustomerByIdHandler(request, h) {
     try {
       const { id } = request.params;
+      const { id: credentialId } = request.auth.credentials;
+
+      await this._service.verifyNoteOwner(id, credentialId);
+
       const customer = await this._service.getCustomersById(id);
       return {
         status: 'success',
@@ -90,6 +96,11 @@ class CustomersHandler {
   async deleteCustomerByIdHandler(request, h) {
     try {
       const { id } = request.params;
+
+      const { id: credentialId } = request.auth.credentials;
+
+      await this._service.verifyCustomerOwner(id, credentialId);
+
       await this._service.deleteCustomerById(id);
       return {
         status: 'success',
