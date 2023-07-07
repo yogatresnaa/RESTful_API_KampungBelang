@@ -3,17 +3,17 @@ const routes = (handler) => [
     method: 'POST',
     path: '/datacustomer',
     handler: handler.postCustomerHandler,
-    options: {
-      auth: 'customersapp_jwt',
-    },
+    // options: {
+    //   auth: 'customersapp_jwt',
+    // },
   },
   {
     method: 'GET',
     path: '/datacustomer',
     handler: handler.getCustomersHandler,
-    options: {
-      auth: 'customersapp_jwt',
-    },
+    // options: {
+    //   auth: 'customersapp_jwt',
+    // },
   },
   {
     method: 'GET',

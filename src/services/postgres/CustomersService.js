@@ -2,20 +2,20 @@ const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
-const AuthorizationError = require('../../exceptions/AuthorizationError');
+// const AuthorizationError = require('../../exceptions/AuthorizationError');
 
 class CustomersService {
   constructor() {
     this._pool = new Pool();
   }
 
-  async addCustomer({ nama, noHp, email, subjek, pesan, owner }) {
+  async addCustomer({ nama, noHp, email, subjek, pesan }) {
     const id = nanoid(16);
     const createdAt = new Date().toISOString();
 
     const query = {
-      text: 'INSERT INTO customers VALUES($1, $2, $3, $4, $5, $6, $7, $8 ) RETURNING id',
-      values: [id, nama, noHp, email, subjek, pesan, createdAt, owner],
+      text: 'INSERT INTO customers VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+      values: [id, nama, noHp, email, subjek, pesan, createdAt],
     };
     const result = await this._pool.query(query);
     if (!result.rows[0].id) {
@@ -24,19 +24,19 @@ class CustomersService {
     return result.rows[0].id;
   }
 
-  async getCustomers(owner) {
-    const query = {
-      text: 'SELECT * FROM customers WHERE owner = $1',
-      values: [owner],
-    };
-    const result = await this._pool.query(query);
-    return result.rows;
-  }
-
-  // async getCustomers() {
-  //   const result = await this._pool.query('SELECT * FROM customers');
+  // async getCustomers(owner) {
+  //   const query = {
+  //     text: 'SELECT * FROM customers WHERE owner = $1',
+  //     values: [owner],
+  //   };
+  //   const result = await this._pool.query(query);
   //   return result.rows;
   // }
+
+  async getCustomers() {
+    const result = await this._pool.query('SELECT * FROM customers');
+    return result.rows;
+  }
 
   async getCustomersById(id) {
     const query = {
@@ -63,20 +63,20 @@ class CustomersService {
     }
   }
 
-  async verifyCustomerOwner(id, owner) {
-    const query = {
-      text: 'SELECT * FROM customers WHERE id = $1',
-      values: [id],
-    };
-    const result = await this._pool.query(query);
-    if (!result.rows.length) {
-      throw new NotFoundError('Customer tidak ditemukan');
-    }
-    const note = result.rows[0];
-    if (note.owner !== owner) {
-      throw new AuthorizationError('Anda tidak berhak mengakses resource ini');
-    }
-  }
+  // async verifyCustomerOwner(id, owner) {
+  //   const query = {
+  //     text: 'SELECT * FROM customers WHERE id = $1',
+  //     values: [id],
+  //   };
+  //   const result = await this._pool.query(query);
+  //   if (!result.rows.length) {
+  //     throw new NotFoundError('Customer tidak ditemukan');
+  //   }
+  //   const note = result.rows[0];
+  //   if (note.owner !== owner) {
+  //     throw new AuthorizationError('Anda tidak berhak mengakses resource ini');
+  //   }
+  // }
 }
 
 module.exports = CustomersService;
