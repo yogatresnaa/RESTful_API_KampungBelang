@@ -15,6 +15,11 @@ const users = require('./api/users');
 const UsersService = require('./services/postgres/UsersService');
 const UsersValidator = require('./validator/users');
 
+// karyawan
+const karyawan = require('./api/karyawan');
+const KaryawanService = require('./services/postgres/KaryawanService');
+const KaryawanValidator = require('./validator/karyawan');
+
 // authentications
 const authentications = require('./api/authentications');
 const AuthenticationsService = require('./services/postgres/AuthenticationsService');
@@ -24,6 +29,7 @@ const AuthenticationsValidator = require('./validator/authentications');
 const init = async () => {
   const customerService = new CustomerService();
   const usersService = new UsersService();
+  const karyawanService = new KaryawanService();
   const authenticationsService = new AuthenticationsService();
 
   const server = Hapi.server({
@@ -73,6 +79,13 @@ const init = async () => {
       options: {
         service: usersService,
         validator: UsersValidator,
+      },
+    },
+    {
+      plugin: karyawan,
+      options: {
+        service: karyawanService,
+        validator: KaryawanValidator,
       },
     },
     {
