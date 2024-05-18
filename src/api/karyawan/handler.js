@@ -7,6 +7,8 @@ class KaryawanHandler {
 
     this.postKaryawanHandler = this.postKaryawanHandler.bind(this);
     this.getKaryawanHandler = this.getKaryawanHandler.bind(this);
+    this.deleteKaryawanByIdHandler = this.deleteKaryawanByIdHandler.bind(this);
+    this.putDataKaryawanHandler = this.putDataKaryawanHandler.bind(this);
   }
 
   async postKaryawanHandler(request, h) {
@@ -58,7 +60,7 @@ class KaryawanHandler {
   async putDataKaryawanHandler(request, h) {
     try {
       const { id } = request.params;
-      await this._service.editNoteById(id, request.payload);
+      await this._service.editKaryawanById(id, request.payload);
       return {
         status: 'success',
         message: 'Karyawan berhasil diperbarui',

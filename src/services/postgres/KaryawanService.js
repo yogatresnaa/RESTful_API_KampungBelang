@@ -30,7 +30,7 @@ class KaryawanService {
 
   async editKaryawanById(id, { nama, alamat, noHp, awalmasuk, posisi, gaji }) {
     const query = {
-      text: 'UPDATE karyawan SET nama = $1, alamat = $2, noHp = $3, awalmasuk = $4, posisi = $5, gaji = $6 WHERE id = $7 RETURNING id',
+      text: 'UPDATE karyawan SET nama = $1, alamat = $2, "noHp" = $3, awalmasuk = $4, posisi = $5, gaji = $6 WHERE id = $7 RETURNING id',
       values: [nama, alamat, noHp, awalmasuk, posisi, gaji, id],
     };
 
