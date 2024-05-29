@@ -3,6 +3,9 @@ const routes = (handler) => [
     method: 'POST',
     path: '/datacustomer',
     handler: handler.postCustomerHandler,
+    cors: {
+      origin: ['*'], // Anda bisa juga mengatur origin yang spesifik
+    },
     // options: {
     //   auth: 'customersapp_jwt',
     // },
