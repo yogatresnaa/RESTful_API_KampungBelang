@@ -37,7 +37,7 @@ const init = async () => {
     host: process.env.HOST,
     routes: {
       cors: {
-        origin: ['https://resto-kampungbelang.netlify.app'],
+        origin: ['*'],
       },
     },
   });
